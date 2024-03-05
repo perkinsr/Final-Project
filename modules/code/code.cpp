@@ -6,6 +6,7 @@
 #include "code.h"
 #include "keypad.h"
 #include "microwave_system.h"
+#include "light_level.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -15,139 +16,72 @@
 
 //=====[Declaration of external public global variables]=======================
 
-char codeSequenceFromKeypad[TIMER_MAX_KEYS];
+char timerSequence[TIMER_MAX_KEYS];
+bool countdownRunningState = false;
+int wattageState = 0;
 
 //=====[Declaration and initialization of private global variables]============
 
-static char startButton = '#';
-static char lowWattage = 'C';
-static char mediumWattage = 'B';
-static char highWattage = 'A';
-
-static char timerSequence[TIMER_MAX_KEYS];
-
-//=====[Declarations (prototypes) of private functions]========================
-
-
-//=====[Implementations of public functions]===================================
-
-void timerWrite( char* timerInput ){
-    int i;
-    for (i = 0; i < TIMER_MAX_KEYS; i++) {
-        timerSequence[i] = timerInput[i];
-    }
-}
-
-
-
-//=====[Implementations of private functions]==================================
-
-
-
-//=====[Declaration and initialization of private global variables]============
-
-static bool codeComplete = false;
 static int numberOfCodeChars = 0;
 
 //=====[Declarations (prototypes) of private functions]========================
 
-static void userInterfaceMatrixKeypadUpdate();
-static void incorrectCodeIndicatorUpdate();
-static void systemBlockedIndicatorUpdate();
+static void timerMatrixKeypadUpdate();
+bool checkButtonPressedNumber();
 
 //=====[Implementations of public functions]===================================
 
-void userInterfaceInit()
+void codeInit()
 {
     matrixKeypadInit( SYSTEM_TIME_INCREMENT_MS );
 }
 
-void userInterfaceUpdate()
+void codeUpdate()
 {
-    userInterfaceMatrixKeypadUpdate();
-    incorrectCodeIndicatorUpdate();
-}
-
-bool incorrectCodeStateRead()
-{
-    return incorrectCodeState;
-}
-
-void incorrectCodeStateWrite( bool state )
-{
-    incorrectCodeState = state;
-}
-
-
-
-bool userInterfaceCodeCompleteRead()
-{
-    return codeComplete;
-}
-
-void userInterfaceCodeCompleteWrite( bool state )
-{
-    codeComplete = state;
+    timerMatrixKeypadUpdate();
 }
 
 //=====[Implementations of private functions]==================================
 
-static void userInterfaceMatrixKeypadUpdate()
+static void timerMatrixKeypadUpdate()
 {
-    static int numberOfHashKeyReleased = 0;
     char keyReleased = matrixKeypadUpdate();
 
     if( keyReleased != '\0' ) {
-
-        if( alarmStateRead() && !systemBlockedStateRead() ) {
-            if( !incorrectCodeStateRead() ) {
-                codeSequenceFromUserInterface[numberOfCodeChars] = keyReleased;
+        if(!checkButtonPressedNumber()){
+            timerSequence[numberOfCodeChars] = keyReleased;
                 numberOfCodeChars++;
-                if ( numberOfCodeChars >= CODE_NUMBER_OF_KEYS ) {
-                    codeComplete = true;
+                if ( numberOfCodeChars >= TIMER_MAX_KEYS ) {
                     numberOfCodeChars = 0;
-                }
-            } else {
-                if( keyReleased == '#' ) {
-                    numberOfHashKeyReleased++;
-                    if( numberOfHashKeyReleased >= 2 ) {
-                        numberOfHashKeyReleased = 0;
-                        numberOfCodeChars = 0;
-                        codeComplete = false;
-                        incorrectCodeState = OFF;
-                    }
-                }
-            }
-        } else if ( !systemBlockedStateRead() ) {
-            if( keyReleased == 'A' ) {
-                motionSensorActivate();
-            }
-            if( keyReleased == 'B' ) {
-                motionSensorDeactivate();
-            }
-            if( keyReleased == '1' ) {
-                lightSystemBrightnessChangeRGBFactor( RGB_LED_RED, true );
-            }
-            if( keyReleased == '2' ) {
-                lightSystemBrightnessChangeRGBFactor( RGB_LED_GREEN, true );
-            }
-            if( keyReleased == '3' ) {
-                lightSystemBrightnessChangeRGBFactor( RGB_LED_BLUE, true );
-            }
-            if( keyReleased == '4' ) {
-                lightSystemBrightnessChangeRGBFactor( RGB_LED_RED, false );
-            }
-            if( keyReleased == '5' ) {
-                lightSystemBrightnessChangeRGBFactor( RGB_LED_GREEN, false );
-            }
-            if( keyReleased == '6' ) {
-                lightSystemBrightnessChangeRGBFactor( RGB_LED_BLUE, false );
-            }
+        }
+        }
+        if( keyReleased == '#' ) {
+            countdownRunningState = true;
+        } 
+        if ( keyReleased == 'A' ) {
+            wattageState = LOW_WATT;
+        }
+        if( keyReleased == 'B'){
+            wattageState = MED_WATT;
+        }
+        if (keyReleased == 'C'){
+            wattageState = HIGH_WATT;
         }
     }
 }
 
-static void incorrectCodeIndicatorUpdate()
-{
-    incorrectCodeLed = incorrectCodeStateRead();
+
+bool checkButtonPressedNumber(){
+    int count = 0;
+    for (int i=0; i<4; i++){
+        if (timerSequence[i] != '\0'){
+            count++;
+        }
+    }
+    if (count == 4){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
