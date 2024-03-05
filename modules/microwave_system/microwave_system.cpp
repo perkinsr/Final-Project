@@ -22,22 +22,12 @@
 
 void smartHomeSystemInit()
 {
-    userInterfaceInit();
-    fireAlarmInit();
-    pcSerialComInit();
-    motorControlInit();
-    gateInit();
-    motionSensorInit();
+
 }
 
 void smartHomeSystemUpdate()
 {
-    userInterfaceUpdate();
-    fireAlarmUpdate();    
-    pcSerialComUpdate();
-    eventLogUpdate();
-    motorControlUpdate();
-    delay(SYSTEM_TIME_INCREMENT_MS);
+
 }
 
 //=====[Implementations of private functions]==================================

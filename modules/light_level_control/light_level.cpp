@@ -3,7 +3,7 @@
 #include "mbed.h"
 #include "arm_book_lib.h"
 
-#include "light_level"
+#include "light_level.h"
 
 //=====[Declaration of private defines]========================================
 

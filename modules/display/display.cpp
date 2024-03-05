@@ -3,6 +3,8 @@
 #include "arm_book_lib.h"
 #include "display.h"
 
+#include "ldr_sensor.h"
+
 //=====[Declaration of private defines]========================================
 
 //all private defines have to deal with the initialization and writing functions
@@ -67,6 +69,7 @@ DigitalOut displayD6( D6 );
 DigitalOut displayD7( D7 );
 DigitalOut displayRs( D8 );
 DigitalOut displayEn( D9 );
+DigitalOut ledControl(D10);
 
 //=====[Declarations (prototypes) of private functions]========================
 
@@ -77,7 +80,22 @@ static void displayCodeWrite( bool type, uint8_t dataBus );
 //=====[Implementations of public functions]===================================
 
 void displayUpdate(){
-    
+    displayLDRCheck(ldrCheck());
+
+    if (1+1 == 2) { //microwave is running
+        displayCharPositionWrite ( 0,0 );
+        displayStringWrite( "Running..." );
+    } else{
+        //real time clock update
+    }
+}
+
+void displayLDRCheck(float ldrReading){
+    if (ldrReading <= LDR_SETTING){
+        ledControl = ON;
+    } else {
+        ledControl = OFF;
+    }
 }
 
 //initializes the display
@@ -195,7 +213,7 @@ static void displayCodeWrite( bool type, uint8_t dataBus )
 {
     if ( type == DISPLAY_RS_INSTRUCTION )
         displayPinWrite( DISPLAY_PIN_RS, DISPLAY_RS_INSTRUCTION);
-        else // if i broke something here go look at original code for this 
+        else
         displayPinWrite( DISPLAY_PIN_RS, DISPLAY_RS_DATA);
     displayPinWrite( DISPLAY_PIN_RW, DISPLAY_RW_WRITE );
     displayDataBusWrite( dataBus );

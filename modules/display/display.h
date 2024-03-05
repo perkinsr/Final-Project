@@ -23,6 +23,8 @@ void userInterfaceDisplayInit();
 
 void displayUpdate();
 
+void displayLDRCheck(float ldrReading);
+
 //=====[#include guards - end]=================================================
 
 #endif // _DISPLAY_H_

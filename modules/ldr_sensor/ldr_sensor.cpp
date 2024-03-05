@@ -10,7 +10,7 @@
 //=====[Declaration of private data types]=====================================
 
 //=====[Declaration and initialization of public global objects]===============
-
+AnalogIn ldr(A2);
 //=====[Declaration of external public global variables]=======================
 
 //=====[Declaration and initialization of public global variables]=============
@@ -20,5 +20,7 @@
 //=====[Declarations (prototypes) of private functions]========================
 
 //=====[Implementations of public functions]===================================
-
+float ldrCheck(){
+    return ldr.read();
+}
 //=====[Implementations of pricate functions]===================================
