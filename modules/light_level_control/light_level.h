@@ -5,10 +5,13 @@
 
 //=====[Declaration of public defines]=========================================
 
+#define LOW_WATT 1
+#define MED_WATT 2
+#define HIGH_WATT 3
 //=====[Declaration of public data types]======================================
 
 //=====[Declarations (prototypes) of public functions]=========================
-
+void lightSystemUpdate(int wattage);
 
 //=====[#include guards - end]=================================================
 

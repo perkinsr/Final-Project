@@ -62,7 +62,6 @@ void motorControlUpdate()
             break;
     
             case STOPPED:
-            default:
                 if ( motorMotion == MOVING ) {
                     motorWrite(RUNNING_SPEED);
                     motorState = MOVING;

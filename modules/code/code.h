@@ -5,7 +5,7 @@
 
 //=====[Declaration of public defines]=========================================
 
-#define TIMER_MAX_KEYS = 4
+#define TIMER_MAX_KEYS 4
 
 //=====[Declaration of public data types]======================================
 
