@@ -1,18 +1,18 @@
 //=====[Libraries]=============================================================
 
 #include "mbed.h"
+#include "arm_book_lib.h"
 
 #include "light.h"
 
-//=====[Declaration of private defines]========================================
 
-#define LM35_NUMBER_OF_AVG_SAMPLES    10
+//=====[Declaration of private defines]========================================
 
 //=====[Declaration of private data types]=====================================
 
 //=====[Declaration and initialization of public global objects]===============
 
-AnalogIn lm35(A1);
+PwmOut RGBLed[] = {(PB_4), (PA_0), (PD_12)};
 
 //=====[Declaration of external public global variables]=======================
 
@@ -20,65 +20,35 @@ AnalogIn lm35(A1);
 
 //=====[Declaration and initialization of private global variables]============
 
-float lm35TemperatureC = 0.0;
-float lm35ReadingsArray[LM35_NUMBER_OF_AVG_SAMPLES];
 
-//=====[Declarations (prototypes) of private functions]========================
 
-static float analogReadingScaledWithTheLM35Formula( float analogReading );
+static void setPeriod( lightSystem_t light, float period );
+void brightControlInit();
+//=====[Declarations (prototypes) of public functions]========================
 
-//=====[Implementations of public functions]===================================
-
-void temperatureSensorInit()
+void lightSystemInit()
 {
-    int i;
-    
-    for( i=0; i<LM35_NUMBER_OF_AVG_SAMPLES ; i++ ) {
-        lm35ReadingsArray[i] = 0;
-    }
-}
-
-void temperatureSensorUpdate()
-{
-    static int lm35SampleIndex = 0;
-    float lm35ReadingsSum = 0.0;
-    float lm35ReadingsAverage = 0.0;
-
-    int i = 0;
-
-    lm35ReadingsArray[lm35SampleIndex] = lm35.read();
-       lm35SampleIndex++;
-    if ( lm35SampleIndex >= LM35_NUMBER_OF_AVG_SAMPLES) {
-        lm35SampleIndex = 0;
-    }
-    
-   lm35ReadingsSum = 0.0;
-    for (i = 0; i < LM35_NUMBER_OF_AVG_SAMPLES; i++) {
-        lm35ReadingsSum = lm35ReadingsSum + lm35ReadingsArray[i];
-    }
-    lm35ReadingsAverage = lm35ReadingsSum / LM35_NUMBER_OF_AVG_SAMPLES;
-       lm35TemperatureC = analogReadingScaledWithTheLM35Formula ( lm35ReadingsAverage );    
+    brightControlInit();
 }
 
 
-float temperatureSensorReadCelsius()
+void setDutyCycle( lightSystem_t light, float dutyCycle )
 {
-    return lm35TemperatureC;
+    RGBLed[light].write(dutyCycle);
 }
 
-float temperatureSensorReadFahrenheit()
+static void setPeriod( lightSystem_t light, float period )
 {
-    return celsiusToFahrenheit( lm35TemperatureC );
+    RGBLed[light].period(period);
 }
 
-float celsiusToFahrenheit( float tempInCelsiusDegrees )
+void brightControlInit()
 {
-    return ( tempInCelsiusDegrees * 9.0 / 5.0 + 32.0 );
-}
+    setPeriod( RGB_LED_RED, 0.01f );
+    setPeriod( RGB_LED_GREEN, 0.01f );
+    setPeriod( RGB_LED_BLUE, 0.01f );
 
-//=====[Implementations of private functions]==================================
-
-static float analogReadingScaledWithTheLM35Formula( float analogReading )
-{
-    return ( analogReading * 3.3 / 0.01 );
+    setDutyCycle( RGB_LED_RED, 0.5f );
+    setDutyCycle( RGB_LED_GREEN, 0.5f );
+    setDutyCycle( RGB_LED_BLUE, 0.5f );
 }

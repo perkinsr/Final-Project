@@ -7,13 +7,18 @@
 
 //=====[Declaration of public data types]======================================
 
+typedef enum {
+    RGB_LED_RED,
+    RGB_LED_GREEN,
+    RGB_LED_BLUE,
+} lightSystem_t;
+
 //=====[Declarations (prototypes) of public functions]=========================
 
-void temperatureSensorInit();
-void temperatureSensorUpdate();
-float temperatureSensorReadCelsius();
-float temperatureSensorReadFahrenheit();
-float celsiusToFahrenheit( float tempInCelsiusDegrees );
+void lightSystemInit();
+void lightSystemUpdate();
+
+void setDutyCycle( lightSystem_t light, float dutyCycle );
 
 //=====[#include guards - end]=================================================
 

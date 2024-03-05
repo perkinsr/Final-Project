@@ -3,6 +3,7 @@
 #include "arm_book_lib.h"
 #include "display.h"
 
+#include "servo_motor.h"
 #include "ldr_sensor.h"
 
 //=====[Declaration of private defines]========================================
@@ -81,8 +82,8 @@ static void displayCodeWrite( bool type, uint8_t dataBus );
 
 void displayUpdate(){
     displayLDRCheck(ldrCheck());
-
-    if (1+1 == 2) { //microwave is running
+    motion_t motorState = motorStateRead();
+    if (motorState == MOVING) { //microwave is running
         displayCharPositionWrite ( 0,0 );
         displayStringWrite( "Running..." );
     } else{
