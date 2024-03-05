@@ -4,29 +4,28 @@
 #define _SERVO_MOTOR_H_
 
 //=====[Declaration of public defines]=========================================
-#define DUTY_MIN 0.02
+
 #define PERIOD 0.02
 #define DUTY_CYCLE_MS 0.075
+#define RUNNING_SPEED 0.079
+
+
 //=====[Declaration of public data types]======================================
 
 typedef enum {
-    DIRECTION_1,
-    DIRECTION_2,
+    MOVING,
     STOPPED
-} motorDirection_t;
+} motion_t;
 
 //=====[Declarations (prototypes) of public functions]=========================
 
-void motorControlInit();
-void motorDirectionWrite( motorDirection_t direction );
-
-motorDirection_t motorDirectionRead();
+motion_t motorStateRead();
 
 void motorControlUpdate();
 
-void servoInit();
+void motorInit();
 
-void servoWrite();
+void motorWrite();
 
 //=====[#include guards - end]=================================================
 

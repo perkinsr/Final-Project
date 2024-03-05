@@ -20,8 +20,8 @@ PwmOut servo(PF_9);
 
 //=====[Declaration and initialization of public global variables]=============
 
-motorDirection_t motorDirection;
-motorDirection_t motorState;
+motion_t motorState;
+motion_t motorMotion;
 
 //=====[Declaration and initialization of private global variables]============
 
@@ -29,24 +29,18 @@ motorDirection_t motorState;
 
 //=====[Implementations of public functions]===================================
 
-void servoInit() {
+void motorInit() {
     servo.period(PERIOD); // 20ms period
     delay(1000);
 }
 
-void servoWrite(){
-    servo.write(DUTY_CYCLE_MS+0.005);
-    delay(1000);
+void motorWrite(float speed){
+    servo.write(speed);
 }
 
-motorDirection_t motorDirectionRead()
+motion_t motorStateRead()
 {
-    return motorDirection;
-}
-
-void motorDirectionWrite( motorDirection_t direction )
-{
-    motorDirection = direction;
+    return motorState;
 }
 
 void motorControlUpdate()
@@ -60,32 +54,18 @@ void motorControlUpdate()
         motorUpdateCounter = 0;
         
         switch ( motorState ) {
-            case DIRECTION_1:
-                if ( motorDirection == DIRECTION_2 || 
-                     motorDirection == STOPPED ) {
-
-                    motorState = STOPPED;
-                }
-            break;
-    
-            case DIRECTION_2:
-                if ( motorDirection == DIRECTION_1 || 
-                     motorDirection == STOPPED ) {
-
+            case MOVING:
+                if ( motorMotion == STOPPED) {
+                    motorWrite(DUTY_CYCLE_MS);
                     motorState = STOPPED;
                 }
             break;
     
             case STOPPED:
             default:
-                if ( motorDirection == DIRECTION_1 ) {
-  
-                    motorState = DIRECTION_1;
-                }
-                
-                if ( motorDirection == DIRECTION_2 ) {
-
-                    motorState = DIRECTION_2;
+                if ( motorMotion == MOVING ) {
+                    motorWrite(RUNNING_SPEED);
+                    motorState = MOVING;
                 }
             break;
         }
