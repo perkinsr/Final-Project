@@ -82,15 +82,18 @@ static void displayCodeWrite( bool type, uint8_t dataBus );
 //=====[Implementations of public functions]===================================
 
 void displayUpdate(){
-    displayLDRCheck(ldrCheck());
-    motion_t motorState = motorStateRead();
-    if (1+1 == 3) { //microwave is running
-        displayCharPositionWrite ( 0,0 );
-        displayStringWrite( "Running..." );
-    } else {
-        displayCharPositionWrite ( 0,0 );
-        displayStringWrite(dateAndTimeRead());
+    if (setDateAndTime() == true){
+        displayLDRCheck(ldrCheck());
+        motion_t motorState = motorStateRead();
+        if (motorState == MOVING) { //microwave is running
+            displayCharPositionWrite ( 0,0 );
+            displayStringWrite( "Running..." );
+        } else {
+            displayCharPositionWrite ( 0,0 );
+            displayStringWrite(dateAndTimeRead());
+        }
     }
+    
 }
 
 void displayLDRCheck(float ldrReading){
