@@ -6,6 +6,7 @@
 #include "servo_motor.h"
 #include "ldr_sensor.h"
 #include "date_and_time.h"
+#include "light.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -82,18 +83,22 @@ static void displayCodeWrite( bool type, uint8_t dataBus );
 //=====[Implementations of public functions]===================================
 
 void displayUpdate(){
-    if (setDateAndTime() == true){
-        displayLDRCheck(ldrCheck());
-        motion_t motorState = motorStateRead();
-        if (motorState == MOVING) { //microwave is running
-            displayCharPositionWrite ( 0,0 );
-            displayStringWrite( "Running..." );
-        } else {
-            displayCharPositionWrite ( 0,0 );
-            displayStringWrite(dateAndTimeRead());
-        }
+    displayLDRCheck(ldrCheck());
+    if (getWattage() > 0) { //microwave is running
+        serialPrint();
+        displayCharPositionWrite ( 0,0 );
+        displayStringWrite( "Running..." );
+    } else if (20 == 3){
+        displayCharPositionWrite ( 0,0 );
+        displayStringWrite(dateAndTimeRead());
     }
+}
     
+
+void displaySetUpCheck(){
+    while (setDateAndTime() == false){
+
+    }
 }
 
 void displayLDRCheck(float ldrReading){
@@ -153,7 +158,8 @@ void displayInit()
                       DISPLAY_IR_DISPLAY_CONTROL_DISPLAY_ON |      
                       DISPLAY_IR_DISPLAY_CONTROL_CURSOR_OFF |    
                       DISPLAY_IR_DISPLAY_CONTROL_BLINK_OFF );    
-    delay( 1 );  
+    delay( 1 ); 
+
 }
 
 //takes in the x and y values as parameters and sets up the display to write at that specific position

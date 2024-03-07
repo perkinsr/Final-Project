@@ -20,6 +20,8 @@ void lightSystemUpdate();
 
 void setDutyCycle( lightSystem_t light, float dutyCycle );
 
+float getWattage();
+
 //=====[#include guards - end]=================================================
 
 #endif // _LIGHT_H_

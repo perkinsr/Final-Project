@@ -25,6 +25,8 @@ void displayUpdate();
 
 void displayLDRCheck(float ldrReading);
 
+void displaySetUpCheck();
+
 //=====[#include guards - end]=================================================
 
 #endif // _DISPLAY_H_

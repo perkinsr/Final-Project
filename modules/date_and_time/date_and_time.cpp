@@ -129,12 +129,14 @@ char* dateAndTimeRead()
     time_t epochSeconds;
     char str[100];
     epochSeconds = time(NULL);
-    sprintf ( str,"Date and Time = %s", ctime(&epochSeconds));
-    uartUsb.write( str , strlen(str) );
-    uartUsb.write( "\r\n", 2 );
     return ctime(&epochSeconds);    
 }
 
+void serialPrint(){
+    char str[100];
+    sprintf ( str,"check:", 1);
+    uartUsb.write( str , strlen(str) );
+}
 
 
 //=====[Implementations of private functions]==================================

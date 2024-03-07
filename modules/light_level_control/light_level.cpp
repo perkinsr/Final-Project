@@ -7,6 +7,8 @@
 
 #include "light.h"
 #include "servo_motor.h"
+#include "date_and_time.h"
+#include "timer.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -20,8 +22,7 @@
 
 
 //=====[Declaration of external public global variables]=======================
-static float dutyCycle = 0.5f;
-float brightnessFactor = 0.5f;
+static float constantDutyCycle = 0.5f;
 //=====[Declaration and initialization of public global variables]=============
 
 //=====[Declaration and initialization of private global variables]============
@@ -31,22 +32,37 @@ float brightnessFactor = 0.5f;
 
 //=====[Implementations of public functions]===================================
 void lightSystemUpdate(int wattage){
-    motion_t motorState = motorStateRead();
-    if (motorState == MOVING){
-        if (wattage == LOW_WATT){
-            brightnessFactor = LOW_DUTY;
-        } else if (wattage == MED_WATT){
-            brightnessFactor = MED_DUTY;
-        } else if (wattage == HIGH_WATT){
-            brightnessFactor = HIGH_DUTY;
-        }
-    } else if (motorState == STOPPED){
-        brightnessFactor = OFF_DUTY;
+
+    if (wattage == LOW_WATT){
+        serialPrint();
+        setDutyCycle( RGB_LED_RED, LOW_DUTY);
+        setDutyCycle( RGB_LED_GREEN, LOW_DUTY);
+        setDutyCycle( RGB_LED_BLUE, LOW_DUTY);
+        motorMotionControl(MOVING);
+
+    } else if (wattage == MED_WATT){
+        setDutyCycle( RGB_LED_RED, MED_DUTY);
+        setDutyCycle( RGB_LED_GREEN, MED_DUTY);
+        setDutyCycle( RGB_LED_BLUE, MED_DUTY);
+        motorMotionControl(MOVING);
+
+    } else if (wattage == HIGH_WATT){
+        setDutyCycle( RGB_LED_RED, HIGH_DUTY);
+        setDutyCycle( RGB_LED_GREEN, HIGH_DUTY);
+        setDutyCycle( RGB_LED_BLUE, HIGH_DUTY);
+        motorMotionControl(MOVING);
+
+    } else if (wattage == 0) {
+        setDutyCycle( RGB_LED_RED, OFF_DUTY);
+        setDutyCycle( RGB_LED_GREEN, OFF_DUTY);
+        setDutyCycle( RGB_LED_BLUE, OFF_DUTY);
+        motorMotionControl(STOPPED);
+
     }
+
     
-    setDutyCycle( RGB_LED_RED, brightnessFactor*dutyCycle );
-    setDutyCycle( RGB_LED_GREEN, brightnessFactor*dutyCycle );
-    setDutyCycle( RGB_LED_BLUE, brightnessFactor*dutyCycle );
 }
+
+
 //=====[Implementations of private functions]==================================
 
