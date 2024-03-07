@@ -11,8 +11,8 @@
 
 //=====[Declarations (prototypes) of public functions]=========================
 
-void smartHomeSystemInit();
-void smartHomeSystemUpdate();
+void microwaveSystemInit();
+void microwaveSystemUpdate();
 
 //=====[#include guards - end]=================================================
 
