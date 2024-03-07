@@ -28,6 +28,7 @@ static int numberOfCodeChars = 0;
 
 static void timerMatrixKeypadUpdate();
 bool checkButtonPressedNumber();
+int convertArrayToInt(char charArray []);
 
 //=====[Implementations of public functions]===================================
 
@@ -39,6 +40,10 @@ void codeInit()
 void codeUpdate()
 {
     timerMatrixKeypadUpdate();
+}
+
+int returnArrayInt(){
+    convertArrayToInt(timerSequence);
 }
 
 //=====[Implementations of private functions]==================================
@@ -84,4 +89,25 @@ bool checkButtonPressedNumber(){
     else{
         return false;
     }
+}
+
+int convertArrayToInt(char charArray []){
+    int timerAmountMinInSec = 0;
+    int timerAmountSec = 0;
+    int timerAmount = 0;
+    for (int i = 0; i < ARRAY_HALF_INDEX; i++){
+        char charDigit = charArray[i];
+        int intDigit = charDigit - '0';
+        timerAmountMinInSec = timerAmountMinInSec * 10;
+        timerAmountMinInSec = timerAmountMinInSec + intDigit;
+        timerAmountMinInSec = timerAmountMinInSec * 60;
+    }
+    for (int i = ARRAY_HALF_INDEX; i < TIMER_MAX_KEYS; i++){
+        char charDigit = charArray[i];
+        int intDigit = charDigit - '0';
+        timerAmountSec = timerAmountSec * 10;
+        timerAmountSec = timerAmountSec + intDigit;
+    }
+    timerAmount = timerAmountMinInSec + timerAmountSec;
+    return timerAmount;
 }
