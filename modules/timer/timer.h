@@ -9,6 +9,7 @@
 
 //=====[Declarations (prototypes) of public functions]=========================
 
+void runTimer();
 
 //=====[#include guards - end]=================================================
 
