@@ -19,8 +19,6 @@ DigitalOut sirenPin(PE_10);
 
 //=====[Declaration and initialization of private global variables]============
 
-static bool sirenState = OFF;
-
 //=====[Declarations (prototypes) of private functions]========================
 
 //=====[Implementations of public functions]===================================
@@ -30,29 +28,11 @@ void sirenInit()
     sirenPin = ON;
 }
 
-bool sirenStateRead()
+void sirenUpdate()
 {
-    return sirenState;
-}
-
-void sirenStateWrite( bool state )
-{
-    sirenState = state;
-}
-
-void sirenUpdate( int strobeTime )
-{
-    static int accumulatedTimeAlarm = 0;
-    accumulatedTimeAlarm = accumulatedTimeAlarm + SYSTEM_TIME_INCREMENT_MS;
-    
-    if( sirenState ) {
-        if( accumulatedTimeAlarm >= strobeTime ) {
-                accumulatedTimeAlarm = 0;
-                sirenPin= !sirenPin;
-        }
-    } else {
-        sirenPin = ON;
-    }
+    sirenPin = !sirenPin;
+    delay(500);
+    sirenPin = !sirenPin;
 }
 
 //=====[Implementations of private functions]==================================
