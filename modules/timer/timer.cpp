@@ -4,6 +4,7 @@
 #include "arm_book_lib.h"
 
 #include "timer.h"
+#include "code.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -22,6 +23,9 @@
 
 //=====[Implementations of public functions]===================================
 
+void runTimer(){
+    delay(returnArrayInt() * 1000);
+}
 
 //=====[Implementations of private functions]==================================
 
