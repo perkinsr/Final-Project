@@ -5,9 +5,16 @@
 #include "microwave_system.h"
 
 #include "light.h"
-#include "display.h"
 #include "keypad.h"
 #include "servo_motor.h"
+#include "buzzer.h"
+#include "code.h"
+#include "date_and_time.h"
+#include "display.h"
+#include "ldr_sensor.h"
+#include "light_level.h"
+#include "timer.h"
+
 
 //=====[Declaration of private defines]========================================
 
@@ -27,13 +34,20 @@
 
 void microwaveSystemInit(){
     lightSystemInit();
-    displayInit();
-    matrixKeypadInit(5);
     motorInit();
+    sirenInit();
+    codeInit();
+    displayInit();
+    matrixKeypadInit( SYSTEM_TIME_INCREMENT_MS );
 }
 
 void microwaveSystemUpdate()
 {
+    displayUpdate();
+    lightSystemUpdate(codeUpdate());
+    motorControlUpdate();
+    runTimer();
+    sirenUpdate();
 
 }
 
