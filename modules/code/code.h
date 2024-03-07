@@ -11,10 +11,12 @@
 
 //=====[Declaration of public data types]======================================
 
+bool countdownRunningState = false;
+
 //=====[Declarations (prototypes) of public functions]=========================
 
 void codeInit();
-void codeUpdate();
+int codeUpdate();
 int returnArrayInt();
 //=====[#include guards - end]=================================================
 

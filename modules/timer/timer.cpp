@@ -5,6 +5,7 @@
 
 #include "timer.h"
 #include "code.h"
+#include "servo_motor.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -24,7 +25,9 @@
 //=====[Implementations of public functions]===================================
 
 void runTimer(){
-    delay(returnArrayInt() * 1000);
+    if(motorState = MOVING){
+        delay(returnArrayInt() * 1000);
+    }
 }
 
 //=====[Implementations of private functions]==================================

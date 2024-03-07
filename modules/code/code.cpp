@@ -17,7 +17,6 @@
 //=====[Declaration of external public global variables]=======================
 
 char timerSequence[TIMER_MAX_KEYS];
-bool countdownRunningState = false;
 int wattageState = 0;
 
 //=====[Declaration and initialization of private global variables]============
@@ -37,7 +36,7 @@ void codeInit()
     matrixKeypadInit( SYSTEM_TIME_INCREMENT_MS );
 }
 
-void codeUpdate()
+int codeUpdate()
 {
     timerMatrixKeypadUpdate();
 }
@@ -48,7 +47,7 @@ int returnArrayInt(){
 
 //=====[Implementations of private functions]==================================
 
-static void timerMatrixKeypadUpdate()
+static int timerMatrixKeypadUpdate()
 {
     char keyReleased = matrixKeypadUpdate();
 
@@ -64,13 +63,13 @@ static void timerMatrixKeypadUpdate()
             countdownRunningState = true;
         } 
         if ( keyReleased == 'A' ) {
-            wattageState = LOW_WATT;
+            return LOW_WATT;
         }
         if( keyReleased == 'B'){
-            wattageState = MED_WATT;
+            return MED_WATT;
         }
         if (keyReleased == 'C'){
-            wattageState = HIGH_WATT;
+            return HIGH_WATT;
         }
     }
 }
