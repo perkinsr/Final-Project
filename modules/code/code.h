@@ -6,6 +6,8 @@
 //=====[Declaration of public defines]=========================================
 
 #define TIMER_MAX_KEYS  4
+#define ARRAY_HALF_INDEX  2
+ 
 
 //=====[Declaration of public data types]======================================
 
@@ -13,7 +15,7 @@
 
 void codeInit();
 void codeUpdate();
-
+int returnArrayInt();
 //=====[#include guards - end]=================================================
 
 #endif // _CODE_H_
