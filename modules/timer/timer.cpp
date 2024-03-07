@@ -4,8 +4,8 @@
 #include "arm_book_lib.h"
 
 #include "timer.h"
+#include "light.h"
 #include "code.h"
-#include "servo_motor.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -25,9 +25,10 @@
 //=====[Implementations of public functions]===================================
 
 void runTimer(){
-    if(motorState = MOVING){
+    if (getWattage() > 0){
         delay(returnArrayInt() * 1000);
     }
+    
 }
 
 //=====[Implementations of private functions]==================================

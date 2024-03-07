@@ -7,6 +7,7 @@
 #include "keypad.h"
 #include "microwave_system.h"
 #include "light_level.h"
+#include "date_and_time.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -25,9 +26,10 @@ static int numberOfCodeChars = 0;
 
 //=====[Declarations (prototypes) of private functions]========================
 
-static void timerMatrixKeypadUpdate();
+static int timerMatrixKeypadUpdate();
 bool checkButtonPressedNumber();
 int convertArrayToInt(char charArray []);
+int wattageUpdate();
 
 //=====[Implementations of public functions]===================================
 
@@ -38,40 +40,48 @@ void codeInit()
 
 int codeUpdate()
 {
-    timerMatrixKeypadUpdate();
+    return timerMatrixKeypadUpdate();
 }
 
 int returnArrayInt(){
-    convertArrayToInt(timerSequence);
+    return convertArrayToInt(timerSequence);
 }
 
 //=====[Implementations of private functions]==================================
 
-static int timerMatrixKeypadUpdate()
-{
+static int timerMatrixKeypadUpdate(){
     char keyReleased = matrixKeypadUpdate();
+    int wattageWait = 0;
 
     if( keyReleased != '\0' ) {
         if(!checkButtonPressedNumber()){
             timerSequence[numberOfCodeChars] = keyReleased;
                 numberOfCodeChars++;
-                if ( numberOfCodeChars >= TIMER_MAX_KEYS ) {
-                    numberOfCodeChars = 0;
-        }
-        }
-        if( keyReleased == '#' ) {
-            countdownRunningState = true;
-        } 
-        if ( keyReleased == 'A' ) {
-            return LOW_WATT;
-        }
-        if( keyReleased == 'B'){
-            return MED_WATT;
-        }
-        if (keyReleased == 'C'){
-            return HIGH_WATT;
+        
+        } else if (checkButtonPressedNumber()){
+            while ( keyReleased == '#' && wattageWait == 0) {
+                wattageWait = wattageUpdate();
+            }
+            return wattageWait;
+            
         }
     }
+    return wattageWait;
+}
+
+int wattageUpdate(){
+    char letterReleased = matrixKeypadUpdate();
+    if ( letterReleased == 'A' ) {
+        return LOW_WATT;
+    }
+    if( letterReleased == 'B'){
+        return MED_WATT;
+    }
+    if (letterReleased == 'C'){
+        return HIGH_WATT;
+    } 
+
+    return 0;
 }
 
 
@@ -82,7 +92,7 @@ bool checkButtonPressedNumber(){
             count++;
         }
     }
-    if (count == 4){
+    if (count == TIMER_MAX_KEYS){
         return true;
     }
     else{
@@ -95,17 +105,17 @@ int convertArrayToInt(char charArray []){
     int timerAmountSec = 0;
     int timerAmount = 0;
     for (int i = 0; i < ARRAY_HALF_INDEX; i++){
-        char charDigit = charArray[i];
-        int intDigit = charDigit - '0';
+        char charDigit1 = charArray[i];
+        int intDigit1 = charDigit1 - '0';
         timerAmountMinInSec = timerAmountMinInSec * 10;
-        timerAmountMinInSec = timerAmountMinInSec + intDigit;
+        timerAmountMinInSec = timerAmountMinInSec + intDigit1;
         timerAmountMinInSec = timerAmountMinInSec * 60;
     }
     for (int i = ARRAY_HALF_INDEX; i < TIMER_MAX_KEYS; i++){
-        char charDigit = charArray[i];
-        int intDigit = charDigit - '0';
+        char charDigit2 = charArray[i];
+        int intDigit2 = charDigit2 - '0';
         timerAmountSec = timerAmountSec * 10;
-        timerAmountSec = timerAmountSec + intDigit;
+        timerAmountSec = timerAmountSec + intDigit2;
     }
     timerAmount = timerAmountMinInSec + timerAmountSec;
     return timerAmount;

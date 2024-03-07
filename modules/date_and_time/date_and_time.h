@@ -16,6 +16,8 @@ bool setDateAndTime();
 void dateAndTimeWrite( int year, int month, int day, 
                        int hour, int minute, int second );
 
+void serialPrint();
+
 //=====[#include guards - end]=================================================
 
 #endif // _DATE_AND_TIME_H_

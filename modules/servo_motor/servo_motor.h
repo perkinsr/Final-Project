@@ -25,7 +25,9 @@ void motorControlUpdate();
 
 void motorInit();
 
-void motorWrite();
+void motorWrite(float speed);
+
+void motorMotionControl(motion_t changeMotion);
 
 //=====[#include guards - end]=================================================
 

@@ -2,6 +2,7 @@
 
 #include "mbed.h"
 #include "arm_book_lib.h"
+#include "light_level.h"
 
 #include "light.h"
 
@@ -48,7 +49,11 @@ void brightControlInit()
     setPeriod( RGB_LED_GREEN, 0.01f );
     setPeriod( RGB_LED_BLUE, 0.01f );
 
-    setDutyCycle( RGB_LED_RED, 0.5f );
-    setDutyCycle( RGB_LED_GREEN, 0.5f );
-    setDutyCycle( RGB_LED_BLUE, 0.5f );
+    setDutyCycle( RGB_LED_RED, LOW_DUTY);
+    setDutyCycle( RGB_LED_GREEN, LOW_DUTY);
+    setDutyCycle( RGB_LED_BLUE, LOW_DUTY);
+}
+
+float getWattage(){
+    return RGBLed[1].read();
 }

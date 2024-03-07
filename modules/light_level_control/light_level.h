@@ -8,6 +8,11 @@
 #define LOW_WATT 1
 #define MED_WATT 2
 #define HIGH_WATT 3
+
+#define LOW_DUTY 0.3f
+#define MED_DUTY 0.6f
+#define HIGH_DUTY 0.9f
+#define OFF_DUTY 0.0f
 //=====[Declaration of public data types]======================================
 
 //=====[Declarations (prototypes) of public functions]=========================

@@ -11,8 +11,6 @@
 
 //=====[Declaration of public data types]======================================
 
-bool countdownRunningState = false;
-
 //=====[Declarations (prototypes) of public functions]=========================
 
 void codeInit();
