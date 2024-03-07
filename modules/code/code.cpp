@@ -111,8 +111,8 @@ int convertArrayToInt(char charArray []){
         timerAmountMinInSec = timerAmountMinInSec + intDigit1;
         timerAmountMinInSec = timerAmountMinInSec * 60;
     }
-    for (int i = ARRAY_HALF_INDEX; i < TIMER_MAX_KEYS; i++){
-        char charDigit2 = charArray[i];
+    for (int j = ARRAY_HALF_INDEX; j < TIMER_MAX_KEYS; j++){
+        char charDigit2 = charArray[j];
         int intDigit2 = charDigit2 - '0';
         timerAmountSec = timerAmountSec * 10;
         timerAmountSec = timerAmountSec + intDigit2;
