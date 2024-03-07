@@ -4,6 +4,11 @@
 
 #include "microwave_system.h"
 
+#include "light.h"
+#include "display.h"
+#include "keypad.h"
+#include "servo_motor.h"
+
 //=====[Declaration of private defines]========================================
 
 //=====[Declaration of private data types]=====================================
@@ -20,12 +25,14 @@
 
 //=====[Implementations of public functions]===================================
 
-void smartHomeSystemInit()
-{
-    
+void microwaveSystemInit(){
+    lightSystemInit();
+    displayInit();
+    matrixKeypadInit(5);
+    motorInit();
 }
 
-void smartHomeSystemUpdate()
+void microwaveSystemUpdate()
 {
 
 }
