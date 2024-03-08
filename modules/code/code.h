@@ -16,6 +16,7 @@
 void codeInit();
 int codeUpdate();
 int returnArrayInt();
+void resetTimerSequence();
 //=====[#include guards - end]=================================================
 
 #endif // _CODE_H_

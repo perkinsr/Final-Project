@@ -48,8 +48,6 @@ void microwaveSystemUpdate(){
     motorControlUpdate();
     //displayUpdate();
     runTimer();
-    //sirenUpdate();
-
 }
 
 //=====[Implementations of private functions]==================================
