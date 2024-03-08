@@ -11,7 +11,7 @@
 
 //=====[Declaration and initialization of public global objects]===============
 
-DigitalOut sirenPin(PE_10);
+DigitalInOut sirenPin(PC_9);
 
 //=====[Declaration of external public global variables]=======================
 
@@ -25,14 +25,16 @@ DigitalOut sirenPin(PE_10);
 
 void sirenInit()
 {
-    sirenPin = ON;
+    sirenPin.mode(OpenDrain);
+    sirenPin.input();
 }
 
 void sirenUpdate()
 {
-    sirenPin = !sirenPin;
+    sirenPin.output();                                     
+    sirenPin = LOW; 
     delay(500);
-    sirenPin = !sirenPin;
+    sirenPin.input();
 }
 
 //=====[Implementations of private functions]==================================

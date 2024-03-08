@@ -33,6 +33,7 @@ void motorInit() {
     servo.period(PERIOD); // 20ms period
     delay(1000);
     motorState = STOPPED;
+    motorWrite(DUTY_CYCLE_MS);
 }
 
 void motorWrite(float speed){

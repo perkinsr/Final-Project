@@ -47,6 +47,11 @@ int returnArrayInt(){
     return convertArrayToInt(timerSequence);
 }
 
+void resetTimerSequence(){
+    numberOfCodeChars = 0;
+}
+
+
 //=====[Implementations of private functions]==================================
 
 static int timerMatrixKeypadUpdate(){
