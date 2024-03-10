@@ -9,8 +9,8 @@
 #define MED_WATT 2
 #define HIGH_WATT 3
 
-#define LOW_DUTY 0.3f
-#define MED_DUTY 0.6f
+#define LOW_DUTY 0.1f
+#define MED_DUTY 0.4f
 #define HIGH_DUTY 0.9f
 #define OFF_DUTY 0.0f
 //=====[Declaration of public data types]======================================

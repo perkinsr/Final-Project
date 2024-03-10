@@ -6,7 +6,7 @@
 //=====[Declaration of public defines]=========================================
 
 #define PERIOD 0.02
-#define DUTY_CYCLE_MS 0.075
+#define DUTY_CYCLE_MS 0.074
 #define RUNNING_SPEED 0.079
 
 

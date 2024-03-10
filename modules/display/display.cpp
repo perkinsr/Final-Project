@@ -87,11 +87,13 @@ void displayUpdate(){
     if (getWattage() > 0) { //microwave is running
         serialPrint();
         displayCharPositionWrite ( 0,0 );
-        displayStringWrite( "Running..." );
-    } else if (20 == 3){
+        displayStringWrite( "Running...      " );
+    }
+    if (getWattage() == 0){
         displayCharPositionWrite ( 0,0 );
         displayStringWrite(dateAndTimeRead());
     }
+    
 }
     
 

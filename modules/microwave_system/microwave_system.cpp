@@ -39,15 +39,16 @@ void microwaveSystemInit(){
     codeInit();
     displayInit();
     matrixKeypadInit( SYSTEM_TIME_INCREMENT_MS );
-    //displaySetUpCheck();
+    displaySetUpCheck();
 }
 
 void microwaveSystemUpdate(){
 
     lightSystemUpdate(codeUpdate());
     motorControlUpdate();
-    //displayUpdate();
+    displayUpdate();
     runTimer();
+    
 }
 
 //=====[Implementations of private functions]==================================

@@ -15,8 +15,9 @@
 
 void codeInit();
 int codeUpdate();
-int returnArrayInt();
+
 void resetTimerSequence();
+int keyReleasedDelay();
 //=====[#include guards - end]=================================================
 
 #endif // _CODE_H_

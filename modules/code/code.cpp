@@ -17,8 +17,8 @@
 
 //=====[Declaration of external public global variables]=======================
 
-char timerSequence[TIMER_MAX_KEYS];
 int wattageState = 0;
+char keyReleased;
 
 //=====[Declaration and initialization of private global variables]============
 
@@ -43,35 +43,18 @@ int codeUpdate()
     return timerMatrixKeypadUpdate();
 }
 
-int returnArrayInt(){
-    return convertArrayToInt(timerSequence);
-}
-
-void resetTimerSequence(){
-    numberOfCodeChars = 0;
-}
-
 
 //=====[Implementations of private functions]==================================
 
 static int timerMatrixKeypadUpdate(){
-    char keyReleased = matrixKeypadUpdate();
+    keyReleased = matrixKeypadUpdate();
     int wattageWait = 0;
-
-    if( keyReleased != '\0' ) {
-        if(!checkButtonPressedNumber()){
-            timerSequence[numberOfCodeChars] = keyReleased;
-                numberOfCodeChars++;
-        
-        } else if (checkButtonPressedNumber()){
-            while ( keyReleased == '#' && wattageWait == 0) {
-                wattageWait = wattageUpdate();
-            }
-            return wattageWait;
-            
-        }
+    while ( keyReleased != '\0' && wattageWait == 0) {
+        wattageWait = wattageUpdate();
     }
+
     return wattageWait;
+
 }
 
 int wattageUpdate(){
@@ -89,39 +72,19 @@ int wattageUpdate(){
     return 0;
 }
 
-
-bool checkButtonPressedNumber(){
-    int count = 0;
-    for (int i=0; i<4; i++){
-        if (timerSequence[i] != '\0'){
-            count++;
-        }
+int keyReleasedDelay(){
+    int delayValue = 0;
+    if (keyReleased == '1'){
+        delayValue = 10000;
     }
-    if (count == TIMER_MAX_KEYS){
-        return true;
+    if (keyReleased == '2'){
+        delayValue = 20000;
     }
-    else{
-        return false;
+    if (keyReleased == '3'){
+        delayValue = 30000;
     }
-}
-
-int convertArrayToInt(char charArray []){
-    int timerAmountMinInSec = 0;
-    int timerAmountSec = 0;
-    int timerAmount = 0;
-    for (int i = 0; i < ARRAY_HALF_INDEX; i++){
-        char charDigit1 = charArray[i];
-        int intDigit1 = charDigit1 - '0';
-        timerAmountMinInSec = timerAmountMinInSec * 10;
-        timerAmountMinInSec = timerAmountMinInSec + intDigit1;
-        timerAmountMinInSec = timerAmountMinInSec * 60;
+    if (keyReleased == '4'){
+        delayValue = 60000;
     }
-    for (int j = ARRAY_HALF_INDEX; j < TIMER_MAX_KEYS; j++){
-        char charDigit2 = charArray[j];
-        int intDigit2 = charDigit2 - '0';
-        timerAmountSec = timerAmountSec * 10;
-        timerAmountSec = timerAmountSec + intDigit2;
-    }
-    timerAmount = timerAmountMinInSec + timerAmountSec;
-    return timerAmount;
+    return delayValue;
 }
