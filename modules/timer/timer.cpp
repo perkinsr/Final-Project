@@ -7,6 +7,7 @@
 #include "light.h"
 #include "code.h"
 #include "buzzer.h"
+#include "display.h"
 
 //=====[Declaration of private defines]========================================
 
@@ -27,10 +28,10 @@
 
 void runTimer(){
     if (getWattage() > 0){
-        delay(returnArrayInt() * 1000);
-        resetTimerSequence();
-        //sirenUpdate();
+        delay(keyReleasedDelay());
+        sirenUpdate();
     }
+
     
 }
 
