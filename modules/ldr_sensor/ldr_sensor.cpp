@@ -20,6 +20,8 @@ AnalogIn ldr(A2);
 //=====[Declarations (prototypes) of private functions]========================
 
 //=====[Implementations of public functions]===================================
+
+//get and return the current value of the LDR sensor
 float ldrCheck(){
     return ldr.read();
 }

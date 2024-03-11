@@ -23,12 +23,14 @@ DigitalInOut sirenPin(PC_9);
 
 //=====[Implementations of public functions]===================================
 
+//initializes the buzzer
 void sirenInit()
 {
     sirenPin.mode(OpenDrain);
     sirenPin.input();
 }
 
+//makes the buzzer buzz for 0.5 seconds
 void sirenUpdate()
 {
     sirenPin.output();                                     

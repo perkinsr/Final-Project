@@ -7,6 +7,7 @@
 
 //=====[Declaration of public data types]======================================
 
+//state machine used to define all of the LEDs within the RGB LED
 typedef enum {
     RGB_LED_RED,
     RGB_LED_GREEN,

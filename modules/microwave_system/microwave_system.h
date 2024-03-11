@@ -5,6 +5,7 @@
 
 //=====[Declaration of public defines]=========================================
 
+//system delay used to set up the display
 #define SYSTEM_TIME_INCREMENT_MS   10
 
 //=====[Declaration of public data types]======================================
