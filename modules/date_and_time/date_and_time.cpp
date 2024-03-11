@@ -9,7 +9,9 @@
 //=====[Declaration of private data types]=====================================
 
 //=====[Declaration and initialization of public global objects]===============
+
 UnbufferedSerial uartUsb(USBTX, USBRX, 115200);
+
 //=====[Declaration of external public global variables]=======================
 
 //=====[Declaration and initialization of public global variables]=============
@@ -19,6 +21,9 @@ UnbufferedSerial uartUsb(USBTX, USBRX, 115200);
 //=====[Declarations (prototypes) of private functions]========================
 
 //=====[Implementations of public functions]===================================
+
+//use the serial moniter to get time values to start the real time clock, return true once the real time
+//clock has been set
 bool setDateAndTime(){
     char receivedChar = '\0';
     char str[100];
@@ -31,6 +36,8 @@ bool setDateAndTime(){
     int sec;
     if( uartUsb.readable() ) {
         uartUsb.read( &receivedChar, 1 );
+        //when s or S is pressed on the keyboard, lead the user through the prompts to set up the real time
+        //clock
         switch (receivedChar) {
             case 's':
             case 'S':
@@ -97,7 +104,8 @@ bool setDateAndTime(){
 
                 return true;
                 break;
-
+            
+            //if any other key is pressed, remind the user that they need to press s to set the time
              default:
                 uartUsb.write( "Type S to set the time\r\n", 24 );
 
@@ -107,6 +115,7 @@ bool setDateAndTime(){
     return false;
 }
 
+//take in the date and time values from the set up and actually set up the real time clock
 void dateAndTimeWrite( int year, int month, int day, 
                        int hour, int minute, int second ){
     struct tm rtcTime;
@@ -124,20 +133,13 @@ void dateAndTimeWrite( int year, int month, int day,
 }
 
 
-char* dateAndTimeRead()
-{
+//return the current time from the real time clock
+char* dateAndTimeRead(){
     time_t epochSeconds;
     char str[100];
     epochSeconds = time(NULL);
     return ctime(&epochSeconds);    
 }
-
-void serialPrint(){
-    char str[100];
-    sprintf ( str,"check:", 1);
-    uartUsb.write( str , strlen(str) );
-}
-
 
 //=====[Implementations of private functions]==================================
 

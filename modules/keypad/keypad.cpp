@@ -7,12 +7,14 @@
 
 //=====[Declaration of private defines]========================================
 
+//define the rows, columns, and milliseconds to effectively debounce the keypad
 #define MATRIX_KEYPAD_NUMBER_OF_ROWS    4
 #define MATRIX_KEYPAD_NUMBER_OF_COLS    4
 #define DEBOUNCE_KEY_TIME_MS        40
 
 //=====[Declaration of private data types]=====================================
 
+//state machine to debounce the keypad
 typedef enum {
     MATRIX_KEYPAD_SCANNING,
     MATRIX_KEYPAD_DEBOUNCE,
@@ -40,6 +42,7 @@ static void matrixKeypadReset();
 
 //=====[Implementations of public functions]===================================
 
+//initialize the keypad
 void matrixKeypadInit( int updateTime_ms )
 {
     timeIncrement_ms = updateTime_ms;
@@ -50,6 +53,7 @@ void matrixKeypadInit( int updateTime_ms )
     }
 }
 
+//update the keypad by using the state machine to detect and return a key that has been released
 char matrixKeypadUpdate()
 {
     static int accumulatedDebounceMatrixKeypadTime = 0;
@@ -102,6 +106,7 @@ char matrixKeypadUpdate()
 
 //=====[Implementations of private functions]==================================
 
+//function that scans the keypad to find which button has been pressed
 static char matrixKeypadScan()
 {
     int row = 0;
@@ -133,6 +138,7 @@ static char matrixKeypadScan()
     return '\0';
 }
 
+//function that sets the state of the keypad to the scanning state, effectively resetting the keypad
 static void matrixKeypadReset()
 {
     matrixKeypadState = MATRIX_KEYPAD_SCANNING;

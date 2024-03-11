@@ -1,6 +1,7 @@
 //=====[Libraries]=============================================================
 #include "mbed.h"
 #include "arm_book_lib.h"
+
 #include "display.h"
 
 #include "servo_motor.h"
@@ -12,6 +13,7 @@
 
 //all private defines have to deal with the initialization and writing functions
 
+//defines to set up the display
 #define DISPLAY_IR_CLEAR_DISPLAY   0b00000001
 #define DISPLAY_IR_ENTRY_MODE_SET  0b00000100
 #define DISPLAY_IR_DISPLAY_CONTROL 0b00001000
@@ -62,6 +64,7 @@
 
 //=====[Declaration and initialization of public global objects]===============
 
+//display pins
 DigitalOut displayD0( D0 );
 DigitalOut displayD1( D1 );
 DigitalOut displayD2( D2 );
@@ -72,6 +75,8 @@ DigitalOut displayD6( D6 );
 DigitalOut displayD7( D7 );
 DigitalOut displayRs( D8 );
 DigitalOut displayEn( D9 );
+
+// led+ pin connection to control if the backlight is turned on or not
 DigitalOut ledControl(D10);
 
 //=====[Declarations (prototypes) of private functions]========================
@@ -82,27 +87,34 @@ static void displayCodeWrite( bool type, uint8_t dataBus );
 
 //=====[Implementations of public functions]===================================
 
+//function that constantly updates the display based on if the RGB LED is on or not, which would indicate
+//that the microwave is running
 void displayUpdate(){
+    //use the values of the LDR to see if it's dark in the room and light the display if the LDR is bellow
+    //a certain value
     displayLDRCheck(ldrCheck());
-    if (getWattage() > 0) { //microwave is running
-        serialPrint();
+    if (getWattage() > 0) { //microwave is running, display a message that the microwave is running
         displayCharPositionWrite ( 0,0 );
         displayStringWrite( "Running...      " );
     }
-    if (getWattage() == 0){
+    //microwave isn't running, display the date and time according to the real time clock
+    if (getWattage() == 0){  
         displayCharPositionWrite ( 0,0 );
         displayStringWrite(dateAndTimeRead());
     }
     
 }
     
-
+//run this while loop until setDateAndTime() returns true, indicating that the date and time has been set
+//on the real time clock
 void displaySetUpCheck(){
     while (setDateAndTime() == false){
 
     }
 }
 
+//take the value of the LDR reading, check to see if it is bellow the threshold value, and turn the
+//LED+ pin on so the backlight on the display lights up
 void displayLDRCheck(float ldrReading){
     if (ldrReading <= LDR_SETTING){
         ledControl = ON;
@@ -210,14 +222,11 @@ void displayStringWrite( const char * str )
     }
 }
 
-//initializes the display by initializing the display first, then writing the two mode selections
+//initializes the display
 void userInterfaceDisplayInit()
 {
     displayInit();
-     
-    displayCharPositionWrite ( 0,0 );
-    //displayStringWrite( "Wiper Mode:" ); //something from the real time clock
-    
+ 
 }
 
 //=====[Implementations of private functions]==================================

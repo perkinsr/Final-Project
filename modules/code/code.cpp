@@ -4,6 +4,7 @@
 #include "arm_book_lib.h"
 
 #include "code.h"
+
 #include "keypad.h"
 #include "microwave_system.h"
 #include "light_level.h"
@@ -17,12 +18,10 @@
 
 //=====[Declaration of external public global variables]=======================
 
-int wattageState = 0;
+//keeps track of what key is most recently released
 char keyReleased;
 
 //=====[Declaration and initialization of private global variables]============
-
-static int numberOfCodeChars = 0;
 
 //=====[Declarations (prototypes) of private functions]========================
 
@@ -33,11 +32,13 @@ int wattageUpdate();
 
 //=====[Implementations of public functions]===================================
 
+//initializes the matrix keypad
 void codeInit()
 {
     matrixKeypadInit( SYSTEM_TIME_INCREMENT_MS );
 }
 
+//update function that is run to check the keypad for time and wattage values
 int codeUpdate()
 {
     return timerMatrixKeypadUpdate();
@@ -46,6 +47,8 @@ int codeUpdate()
 
 //=====[Implementations of private functions]==================================
 
+//using the debounced matrixKeypadUpdate function, when a key is released, run wattageUpdate
+//until a wattage as been chosen on the keypad. Then return the value of wattage wait.
 static int timerMatrixKeypadUpdate(){
     keyReleased = matrixKeypadUpdate();
     int wattageWait = 0;
@@ -57,6 +60,8 @@ static int timerMatrixKeypadUpdate(){
 
 }
 
+//check to see if the letters bellow have been pressed, meaning that a resulting wattage has been chosen
+//and return that value.
 int wattageUpdate(){
     char letterReleased = matrixKeypadUpdate();
     if ( letterReleased == 'A' ) {
@@ -72,19 +77,21 @@ int wattageUpdate(){
     return 0;
 }
 
+//use the global variable keyReleased to determine what number was pressed. Based on that number value,
+//a specific delay will be run
 int keyReleasedDelay(){
     int delayValue = 0;
     if (keyReleased == '1'){
-        delayValue = 10000;
+        delayValue = TEN_SEC_RUN_MS;
     }
     if (keyReleased == '2'){
-        delayValue = 20000;
+        delayValue = TWENTY_SEC_RUN_MS;
     }
     if (keyReleased == '3'){
-        delayValue = 30000;
+        delayValue = THIRTY_SEC_RUN_MS;
     }
     if (keyReleased == '4'){
-        delayValue = 60000;
+        delayValue = ONE_MIN_RUN_MS;
     }
     return delayValue;
 }

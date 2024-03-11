@@ -5,13 +5,9 @@
 
 //=====[Declaration of public defines]=========================================
 
-#define PERIOD 0.02
-#define DUTY_CYCLE_MS 0.074
-#define RUNNING_SPEED 0.079
-
-
 //=====[Declaration of public data types]======================================
 
+//define the state machine of the motor so motorMotion can be changed in different modules
 typedef enum {
     MOVING,
     STOPPED
@@ -19,13 +15,9 @@ typedef enum {
 
 //=====[Declarations (prototypes) of public functions]=========================
 
-motion_t motorStateRead();
-
 void motorControlUpdate();
 
 void motorInit();
-
-void motorWrite(float speed);
 
 void motorMotionControl(motion_t changeMotion);
 

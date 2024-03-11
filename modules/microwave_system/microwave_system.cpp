@@ -32,6 +32,7 @@
 
 //=====[Implementations of public functions]===================================
 
+//initialize all of the systems that need initialization
 void microwaveSystemInit(){
     lightSystemInit();
     motorInit();
@@ -42,6 +43,7 @@ void microwaveSystemInit(){
     displaySetUpCheck();
 }
 
+//update all the components based on user inputted values
 void microwaveSystemUpdate(){
 
     lightSystemUpdate(codeUpdate());
