@@ -14,5 +14,6 @@ A: The LED will be set to a third of the full brightness level <br>
 B: The LED will be set to half brightness  <br>
 C: The LED will be set to full brightness <br>
 ## Goals and Results
-<img width="363" alt="image" src="https://github.com/bechtele/ece218_windshield_wiper_system_proj/assets/155581077/5d460e71-1a52-4b10-a262-dbe17d030a19">
+<img width="421" alt="Screenshot 2024-03-11 at 6 11 00 PM" src="https://github.com/perkinsr/Final-Project/assets/155563354/435fc285-1c3f-4a0d-9db0-d44372b2e50f">
+
 
