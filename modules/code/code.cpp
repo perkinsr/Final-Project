@@ -53,6 +53,23 @@ static int timerMatrixKeypadUpdate(){
     keyReleased = matrixKeypadUpdate();
     int wattageWait = 0;
     while ( keyReleased != '\0' && wattageWait == 0) {
+        //display the value of the delay based on the button that the user presses
+        if ( keyReleased == '1' ) {
+            displayCharPositionWrite ( 0,0 );
+            displayStringWrite("10 seconds        ");
+        }
+        if( keyReleased == '2'){
+            displayCharPositionWrite ( 0,0 );
+            displayStringWrite("20 seconds        ");
+        }
+        if (keyReleased == '3'){
+            displayCharPositionWrite ( 0,0 );
+            displayStringWrite("30 seconds        ");        
+        } 
+        if (keyReleased == '4'){
+            displayCharPositionWrite ( 0,0 );
+            displayStringWrite("60 seconds        ");
+        }
         wattageWait = wattageUpdate();
     }
 
